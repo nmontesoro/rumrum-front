@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>rumrum</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="main-container">
+      <div class="upper-half">
+        <input id="chkTouchpad" type="checkbox" style="grid-column: 1" />
+        <label for="chkTouchpad" style="grid-column: 1"></label>
+        <p style="grid-column: 2">Controles automáticos</p>
+        <input id="chkPalabra" type="checkbox" style="grid-column: 1" />
+        <label for="chkPalabra" style="grid-column: 1"></label>
+        <p style="grid-column: 2">Palabra automática</p>
+        <form
+          id="form"
+          action="/mostrarPalabra"
+          method="post"
+          style="grid-column: 1 / span 2"
+        >
+          <input
+            id="input-palabra"
+            name="palabra"
+            type="text"
+            placeholder="Palabra"
+          />
+          <button>Mostrar</button>
+        </form>
+      </div>
+      <div class="lower-half">
+        <div class="touchpad"></div>
+        <div class="auto-buttons">
+          <div>
+            <img src="img/rotate_left.svg" alt="Izquierda" />
+          </div>
+          <div>
+            <img src="img/straight.svg" alt="Adelante" />
+          </div>
+          <div>
+            <img src="img/rotate_right.svg" alt="Derecha" />
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="code.js"></script>
+  </body>
+</html>
