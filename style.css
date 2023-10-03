@@ -7,6 +7,7 @@
 
 body {
   color: var(--text-color);
+  background-color: var(--bg-color);
   height: 100%;
   overflow: hidden;
   font-size: 1.5em;
@@ -14,35 +15,32 @@ body {
   margin: 0;
 }
 
-input[type="checkbox"] {
-  height: 50px;
-}
-
-.main-container {
+.container {
   display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
   height: 100vh;
+  flex-direction: column;
 }
 
-@media screen and (min-width: 900px) {
-  .main-container {
-    flex-direction: row;
-  }
-
-  .upper-half {
-    max-width: 350px;
+@media only screen and (max-width: 600px) {
+  #settings-btn-container {
+    max-height: 70px;
   }
 }
 
-.upper-half {
-  display: grid;
-  background-color: var(--bg-color);
-  height: 100%;
-  width: 100%;
-  flex: 3;
+@media only screen and (min-width: 600px) {
+  .container {
+    flex-direction: row-reverse;
+  }
+
+  #settings-btn-container {
+    flex-direction: column;
+    max-width: 70px;
+    max-height: none;
+  }
+}
+
+#settings-container {
+  flex: 9;
   display: grid;
   justify-content: center;
   grid-template-columns: 1fr 5fr;
@@ -50,8 +48,54 @@ input[type="checkbox"] {
   grid-row-gap: 5px;
   grid-column-gap: 10px;
   align-items: center;
-  padding-left: 5px;
-  padding-right: 5px;
+  padding: 5px;
+}
+
+#touchpad-container {
+  display: none;
+  flex: 9;
+  height: 100%;
+}
+
+#auto-container {
+  flex: 9;
+  height: 100%;
+  display: none;
+}
+
+#settings-btn-container {
+  flex: 1;
+  background-color: var(--highlight-color);
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+#text-btn {
+  width: 50px;
+  height: 50px;
+  background-image: url("img/text.svg");
+  background-repeat: no-repeat;
+  background-size: 50px;
+  background-position: center;
+}
+
+#touchpad-btn {
+  width: 50px;
+  height: 50px;
+  background-image: url("img/touchpad.svg");
+  background-repeat: no-repeat;
+  background-size: 50px;
+  background-position: center;
+}
+
+#autopilot-btn {
+  width: 50px;
+  height: 50px;
+  background-image: url("img/autopilot.svg");
+  background-repeat: no-repeat;
+  background-size: 50px;
+  background-position: center;
 }
 
 #form {
@@ -75,16 +119,8 @@ button {
   font-variant: all-small-caps;
 }
 
-.lower-half {
-  display: block;
-  background-color: var(--bg-color-secondary);
-  height: 100%;
-  width: 100%;
-  flex: 7;
-}
-
 .touchpad {
-  width: auto;
+  width: 100%;
   height: 100%;
   background-image: url("img/touch.svg");
   background-position: center; /* Center the image */
@@ -163,19 +199,4 @@ input[type="checkbox"]:checked + label {
 /* Slide the slider to the right when the checkbox is checked */
 input[type="checkbox"]:checked + label::before {
   transform: translateX(30px); /* Move the slider to the right */
-}
-
-.settings-button {
-  background-color: var(--highlight-color);
-  position: fixed;
-  bottom: 40px;
-  right: 40px;
-  width: 70px;
-  height: 70px;
-  border-radius: 50%;
-  background-image: url("img/settings.svg");
-  background-repeat: no-repeat;
-  background-size: 50px;
-  background-position: center;
-  box-shadow: 0px 0px 10px black;
 }

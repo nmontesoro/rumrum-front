@@ -8,8 +8,8 @@
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
-    <div class="main-container">
-      <div class="upper-half">
+    <div class="container">
+      <div id="settings-container">
         <input id="chkTouchpad" type="checkbox" style="grid-column: 1" />
         <label for="chkTouchpad" style="grid-column: 1"></label>
         <p style="grid-column: 2">Controles automáticos</p>
@@ -31,8 +31,10 @@
           <button>Mostrar</button>
         </form>
       </div>
-      <div class="lower-half">
+      <div id="touchpad-container">
         <div class="touchpad"></div>
+      </div>
+      <div id="auto-container">
         <div class="auto-buttons">
           <div>
             <img src="img/rotate_left.svg" alt="Izquierda" />
@@ -45,8 +47,12 @@
           </div>
         </div>
       </div>
+      <div id="settings-btn-container">
+        <div id="autopilot-btn" role="button"></div>
+        <div id="touchpad-btn" role="button"></div>
+        <div id="text-btn" role="button"></div>
+      </div>
     </div>
-    <div class="settings-button"></div>
     <script src="code.js"></script>
   </body>
 </html>
