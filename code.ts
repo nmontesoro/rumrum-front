@@ -87,5 +87,10 @@ class AppStatus {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-  let appStatus = new AppStatus();
+  try {
+    let appStatus = new AppStatus();
+  } catch (err) {
+    alert(err.message);
+    console.log(err);
+  }
 });
