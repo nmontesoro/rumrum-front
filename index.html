@@ -10,23 +10,24 @@
   <body>
     <div class="container">
       <div id="word-container">
-        <input id="chkPalabra" type="checkbox" style="grid-column: 1" />
-        <label for="chkPalabra" style="grid-column: 1"></label>
-        <p style="grid-column: 2">Palabra automática</p>
-        <form
-          id="form"
-          action="/mostrarPalabra"
-          method="post"
-          style="grid-column: 1 / span 2"
-        >
+        <div class="word-inner">
+          <input
+            id="chkPalabra"
+            type="checkbox"
+            style="grid-column: 1; grid-row: 1; height: inherit"
+          />
+          <label for="chkPalabra" style="grid-column: 2; grid-row: 1"
+            >Palabra automática</label
+          >
           <input
             id="input-palabra"
             name="palabra"
             type="text"
             placeholder="Palabra"
+            style="grid-column: 1/3; grid-row: 2"
           />
-          <button>Mostrar</button>
-        </form>
+          <button style="grid-row: 3; grid-column: 1/3">Mostrar</button>
+        </div>
       </div>
       <div id="touchpad-container">
         <div class="touchpad"></div>

@@ -41,14 +41,7 @@ body {
 
 #word-container {
   flex: 9;
-  display: grid;
-  justify-content: center;
-  grid-template-columns: 1fr 5fr;
-  grid-template-rows: repeat(3, 1fr);
-  grid-row-gap: 5px;
-  grid-column-gap: 10px;
-  align-items: center;
-  padding: 5px;
+  padding: 20px;
 }
 
 #touchpad-container {
@@ -155,46 +148,13 @@ button {
   background-color: var(--highlight-color);
 }
 
-/* Hide the default checkbox */
-input[type="checkbox"] {
-  display: none;
-}
-
-/* Style the label as the switch */
-label {
-  display: inline-block;
-  width: 60px; /* Width of the switch */
-  height: 30px; /* Height of the switch */
-  background-color: var(
-    --text-color
-  ); /* Default background color for the switch */
-  border-radius: 15px; /* Round the corners to make it look like a switch */
-  position: relative;
-  cursor: pointer;
-  transition: background-color 0.3s; /* Add a smooth transition effect */
-}
-
-/* Style the pseudo-element (the slider) */
-label::before {
-  content: "";
-  width: 30px; /* Width of the slider */
-  height: 30px; /* Height of the slider */
-  background-color: var(--bg-color-secondary); /* Color of the slider */
-  border-radius: 50%; /* Round the corners to make it circular */
-  position: absolute;
-  top: 0;
-  left: 0;
-  transition: transform 0.3s; /* Add a smooth transition effect for sliding */
-}
-
-/* Style the checkbox when it's checked */
-input[type="checkbox"]:checked + label {
-  background-color: var(
-    --highlight-color
-  ); /* Change background color when checked */
-}
-
-/* Slide the slider to the right when the checkbox is checked */
-input[type="checkbox"]:checked + label::before {
-  transform: translateX(30px); /* Move the slider to the right */
+.word-inner {
+  width: 100%;
+  height: 100%;
+  display: grid;
+  grid-template-columns: 35px 1fr;
+  grid-template-rows: repeat(3, 70px);
+  grid-row-gap: 20px;
+  align-items: center;
+  grid-column-gap: 10px;
 }
