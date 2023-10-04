@@ -4,11 +4,6 @@ type ControlMap = {
   callbackFn: () => void;
 };
 
-type Controller = {
-  container: HTMLElement;
-  button: HTMLElement;
-};
-
 class AppStatus {
   #containers: NodeListOf<HTMLElement>;
 
