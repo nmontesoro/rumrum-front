@@ -6,7 +6,7 @@ type Controller = {
 class AppStatus {
   #containers: NodeListOf<HTMLElement>;
 
-  #buttonMap: Map<string, () => void> = new Map<string, () => void>([
+  #controlMap: Map<string, () => void> = new Map<string, () => void>([
     ["autopilot-btn", () => this.#toggleContainer("autopilot")],
     ["touchpad-btn", () => this.#toggleContainer("touchpad")],
     ["word-btn", () => this.#toggleContainer("word")],
@@ -14,7 +14,7 @@ class AppStatus {
 
   constructor() {
     this.#containers = document.querySelectorAll('[id$="-container"]');
-    this.#buttonMap.forEach((callbackFn, btnId) => {
+    this.#controlMap.forEach((callbackFn, btnId) => {
       let btn: HTMLElement | null = document.getElementById(btnId);
 
       if (btn) {
