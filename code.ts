@@ -1,36 +1,43 @@
+type Controller = {
+  container: HTMLElement;
+  button: HTMLElement;
+};
+
 class AppStatus {
-  #joystickHidden: boolean = true;
-  #joystickContainer: HTMLElement;
+  #elementMap: Map<string, Controller> = new Map<string, Controller>();
 
   constructor() {
-    let joystickContainer: HTMLElement | null = <HTMLElement | null>(
-      document.getElementsByClassName("touchpad")[0]
-    );
-
-    if (joystickContainer != null) {
-      this.#joystickContainer = joystickContainer;
-    } else {
-      alert("Algo falló");
-    }
+    this.#initElementMap();
   }
 
-  toggleJoystick() {
-    this.#joystickHidden = !this.#joystickHidden;
-    this.#joystickContainer.style.display = this.#joystickHidden
-      ? "block"
-      : "none";
+  #initElementMap(): void {
+    let elementNames: Array<string> = ["autopilot", "touchpad", "word"];
+
+    let container: HTMLElement | null;
+    let button: HTMLElement | null;
+
+    elementNames.forEach((name) => {
+      container = document.getElementById(`${name}-container`);
+      button = document.getElementById(`${name}-btn`);
+
+      if (!container || !button) {
+        throw new Error(`No se encontró el container o botón para ${name}`);
+      } else {
+        button.addEventListener("click", () => this.#enableSection(name));
+        this.#elementMap.set(name, { container, button });
+      }
+    });
+
+    this.#enableSection(elementNames[0]);
+  }
+
+  #enableSection(name: string): void {
+    this.#elementMap.forEach((elemSet, key) => {
+      elemSet.container.style.display = key == name ? "initial" : "none";
+    });
   }
 }
 
-document.addEventListener("DOMContentLoaded", (e: Event) => {
+document.addEventListener("DOMContentLoaded", () => {
   let appStatus = new AppStatus();
-  let chkTouchpad: HTMLInputElement = <HTMLInputElement>(
-    document.getElementById("chkTouchpad")
-  );
-
-  chkTouchpad.click(); // Hack horrible
-
-  chkTouchpad.addEventListener("change", (e: Event) => {
-    appStatus.toggleJoystick();
-  });
 });
