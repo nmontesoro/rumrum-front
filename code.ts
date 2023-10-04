@@ -6,6 +6,7 @@ type ControlMap = {
 
 class AppStatus {
   #containers: NodeListOf<HTMLElement>;
+  #word: string = "";
 
   #controlMap: Array<ControlMap> = [
     {
@@ -46,12 +47,19 @@ class AppStatus {
     {
       id: "send-word-btn",
       events: ["click"],
-      callbackFn: () => console.log("word"),
+      callbackFn: () => console.log(this.#word),
     },
     {
       id: "chk-palabra",
       events: ["change"],
       callbackFn: () => console.log("palabra"),
+    },
+    {
+      id: "input-palabra",
+      events: ["change"],
+      callbackFn: (event: InputEvent) => {
+        this.#word = (<HTMLInputElement>event.target).value;
+      },
     },
   ];
 
