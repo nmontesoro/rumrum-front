@@ -53,6 +53,11 @@ class AppStatus {
       events: ["click"],
       callbackFn: () => console.log("word"),
     },
+    {
+      id: "chk-palabra",
+      events: ["change"],
+      callbackFn: () => console.log("palabra"),
+    },
   ];
 
   constructor() {
