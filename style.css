@@ -22,7 +22,7 @@ body {
 }
 
 @media only screen and (max-width: 600px) {
-  #settings-btn-container {
+  #settings-dock {
     max-height: 70px;
   }
 }
@@ -32,7 +32,7 @@ body {
     flex-direction: row-reverse;
   }
 
-  #settings-btn-container {
+  #settings-dock {
     flex-direction: column;
     max-width: 70px;
     max-height: none;
@@ -54,7 +54,7 @@ body {
   height: 100%;
 }
 
-#settings-btn-container {
+#settings-dock {
   flex: 1;
   background-color: var(--highlight-color);
   display: flex;
