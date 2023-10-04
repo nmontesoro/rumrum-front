@@ -4,36 +4,32 @@ type Controller = {
 };
 
 class AppStatus {
-  #elementMap: Map<string, Controller> = new Map<string, Controller>();
+  #containers: NodeListOf<HTMLElement>;
+
+  #buttonMap: Map<string, () => void> = new Map<string, () => void>([
+    ["autopilot-btn", () => this.#toggleContainer("autopilot")],
+    ["touchpad-btn", () => this.#toggleContainer("touchpad")],
+    ["word-btn", () => this.#toggleContainer("word")],
+  ]);
 
   constructor() {
-    this.#initElementMap();
-  }
+    this.#containers = document.querySelectorAll('[id$="-container"]');
+    this.#buttonMap.forEach((callbackFn, btnId) => {
+      let btn: HTMLElement | null = document.getElementById(btnId);
 
-  #initElementMap(): void {
-    let elementNames: Array<string> = ["autopilot", "touchpad", "word"];
-
-    let container: HTMLElement | null;
-    let button: HTMLElement | null;
-
-    elementNames.forEach((name) => {
-      container = document.getElementById(`${name}-container`);
-      button = document.getElementById(`${name}-btn`);
-
-      if (!container || !button) {
-        throw new Error(`No se encontró el container o botón para ${name}`);
+      if (btn) {
+        btn.addEventListener("click", callbackFn);
       } else {
-        button.addEventListener("click", () => this.#enableSection(name));
-        this.#elementMap.set(name, { container, button });
+        throw new Error(`No encontré el elemento con id ${btnId}`);
       }
     });
-
-    this.#enableSection(elementNames[0]);
+    this.#toggleContainer("touchpad");
   }
 
-  #enableSection(name: string): void {
-    this.#elementMap.forEach((elemSet, key) => {
-      elemSet.container.style.display = key == name ? "initial" : "none";
+  #toggleContainer(containerName: string): void {
+    containerName = `${containerName}-container`;
+    this.#containers.forEach((value) => {
+      value.style.display = value.id == containerName ? "block" : "none";
     });
   }
 }
