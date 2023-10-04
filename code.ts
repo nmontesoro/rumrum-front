@@ -1,7 +1,7 @@
 type ControlMap = {
   id: string;
   events: Array<string>;
-  callbackFn: () => void;
+  callbackFn: (event?: Event) => void;
 };
 
 class AppStatus {
