@@ -10,6 +10,11 @@ class AppStatus {
     ["autopilot-btn", () => this.#toggleContainer("autopilot")],
     ["touchpad-btn", () => this.#toggleContainer("touchpad")],
     ["word-btn", () => this.#toggleContainer("word")],
+    ["rotate-left-btn", () => console.log("left")],
+    ["rotate-right-btn", () => console.log("right")],
+    ["straight-btn", () => console.log("straight")],
+    ["back-btn", () => console.log("back")],
+    ["send-word-btn", () => console.log("word")],
   ]);
 
   constructor() {
