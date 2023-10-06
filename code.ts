@@ -27,22 +27,22 @@ class AppStatus {
     {
       id: "rotate-left-btn",
       events: ["click"],
-      callbackFn: () => console.log("left"),
+      callbackFn: () => this.#toggleStopButton(),
     },
     {
       id: "rotate-right-btn",
       events: ["click"],
-      callbackFn: () => console.log("right"),
+      callbackFn: () => this.#toggleStopButton(),
     },
     {
       id: "straight-btn",
       events: ["click"],
-      callbackFn: () => console.log("straight"),
+      callbackFn: () => this.#toggleStopButton(),
     },
     {
       id: "back-btn",
       events: ["click"],
-      callbackFn: () => console.log("back"),
+      callbackFn: () => this.#toggleStopButton(),
     },
     {
       id: "send-word-btn",
@@ -60,6 +60,11 @@ class AppStatus {
       callbackFn: (event: InputEvent) => {
         this.#word = (<HTMLInputElement>event.target).value;
       },
+    },
+    {
+      id: "stop-btn",
+      events: ["click"],
+      callbackFn: () => this.#toggleStopButton(),
     },
   ];
 
@@ -86,6 +91,19 @@ class AppStatus {
     this.#containers.forEach((value) => {
       value.style.display = value.id == containerName ? "block" : "none";
     });
+  }
+
+  #toggleStopButton(): void {
+    let stopButton: HTMLElement | null = document.getElementById("stop-btn");
+
+    if (stopButton) {
+      let currentStyle: string = stopButton.style.display;
+      if (currentStyle == "block") {
+        stopButton.style.display = "none";
+      } else {
+        stopButton.style.display = "block";
+      }
+    }
   }
 }
 

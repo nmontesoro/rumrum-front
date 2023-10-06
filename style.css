@@ -186,3 +186,18 @@ button {
   filter: invert(98%) sepia(2%) saturate(443%) hue-rotate(179deg)
     brightness(96%) contrast(101%);
 }
+
+#stop-btn {
+  position: absolute;
+  width: 70%;
+  height: 70%;
+  background-color: brown;
+  font-size: 6rem;
+  text-align: center;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  box-shadow: 0 0 20px black;
+  border: 20px double var(--text-color);
+  display: none;
+}
