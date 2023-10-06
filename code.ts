@@ -78,7 +78,7 @@ class AppStatus {
       }
     });
 
-    this.#toggleContainer("touchpad");
+    this.#toggleContainer("welcome");
   }
 
   #toggleContainer(containerName: string): void {
