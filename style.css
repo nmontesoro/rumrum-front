@@ -11,6 +11,7 @@
   --bg-autopilot-btn: var(--accessibility-color-1);
   --bg-touchpad-btn: var(--accessibility-color-2);
   --bg-settings-btn: var(--accessibility-color-3);
+  --invalid: red;
 }
 
 body {
@@ -106,6 +107,8 @@ body {
 #input-palabra {
   height: 50px;
   font-size: 1rem;
+  border: 5px solid var(--highlight-color);
+  border-radius: 2px;
 }
 
 button {
@@ -222,4 +225,8 @@ button {
   display: inline-block;
   background-size: 20px;
   border-radius: 2px;
+}
+
+#input-palabra:invalid {
+  border-color: var(--invalid);
 }
