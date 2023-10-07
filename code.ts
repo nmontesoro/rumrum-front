@@ -20,9 +20,9 @@ class AppStatus {
       callbackFn: () => this.#toggleContainer("touchpad"),
     },
     {
-      id: "word-btn",
+      id: "settings-btn",
       events: ["click"],
-      callbackFn: () => this.#toggleContainer("word"),
+      callbackFn: () => this.#toggleContainer("settings"),
     },
     {
       id: "rotate-left-btn",
