@@ -11,12 +11,14 @@
     <div class="container">
       <div id="settings-container">
         <div class="settings-inner">
-          <input
-            id="chk-palabra"
-            type="checkbox"
-            style="grid-column: 1; grid-row: 1; height: inherit"
-          />
-          <label for="chk-palabra" style="grid-column: 2; grid-row: 1"
+          <h1 style="grid-column: 1/4">Configuración</h1>
+          <p style="grid-column: 1/4">
+            Desde aquí podrás controlar algunos ajustes. Si activás la
+            <b>palabra automática</b>, el auto te saludará con un "hola" o
+            "chau" al ir hacia adelante o atrás.
+          </p>
+          <input id="chk-palabra" type="checkbox" />
+          <label for="chk-palabra" style="grid-column: 2/4"
             >Palabra automática</label
           >
           <input
@@ -24,15 +26,13 @@
             name="palabra"
             type="text"
             placeholder="Palabra"
-            style="grid-column: 1/3; grid-row: 2"
+            style="grid-column: 1/3"
             pattern="^[a-zA-Z0-9]{1,4}$"
             minlength="1"
             maxlength="4"
             required
           />
-          <button id="send-word-btn" style="grid-row: 3; grid-column: 1/3">
-            Mostrar
-          </button>
+          <button id="send-word-btn" style="grid-column: 3/4">Mostrar</button>
         </div>
       </div>
       <div id="touchpad-container">
