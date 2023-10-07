@@ -65,24 +65,21 @@
         <div id="welcome-inner">
           <h1>¡Bienvenido!</h1>
 
-          <p>
-            Con el botón
-            <img src="img/touchpad.svg" />
-            vas a poder controlar el autito manualmente. Si te vas a la sección
-            <img src="img/autopilot.svg" />
-            vas a encontrar los controles de piloto automático: ¡el auto hará
-            exactamente lo que le pidas! Por último, en
-            <img src="img/text.svg" />
-            vas a poder configurar la palabra que se muestra en el display.
-          </p>
+          Con
+          <div class="autopilot-btn btn-tiny"></div>
+          controlás el <b>piloto automático</b>. Con
+          <div class="touchpad-btn btn-tiny"></div>
+          accedés a los <b>controles manuales</b>. Y con
+          <div class="word-btn btn-tiny"></div>
+          podés acceder a los <b>ajustes</b>.
 
           <h2>¡Que te diviertas!</h2>
         </div>
       </div>
       <div id="settings-dock">
-        <div id="autopilot-btn" role="button"></div>
-        <div id="touchpad-btn" role="button"></div>
-        <div id="word-btn" role="button"></div>
+        <div id="autopilot-btn" class="autopilot-btn" role="button"></div>
+        <div id="touchpad-btn" class="touchpad-btn" role="button"></div>
+        <div id="word-btn" class="word-btn" role="button"></div>
       </div>
     </div>
     <script src="code-min.js"></script>

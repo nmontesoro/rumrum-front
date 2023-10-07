@@ -3,6 +3,14 @@
   --bg-color-secondary: #4b4b4b;
   --text-color: #eef1f4;
   --highlight-color: #00b286;
+  --accessibility-color-1: #ffb000;
+  --accessibility-color-2: #fe6100;
+  --accessibility-color-3: #785ef0;
+  --accessibility-color-4: #dc267f;
+  --accessibility-color-5: #26304c;
+  --bg-autopilot-btn: var(--accessibility-color-1);
+  --bg-touchpad-btn: var(--accessibility-color-2);
+  --bg-word-btn: var(--accessibility-color-3);
 }
 
 body {
@@ -62,31 +70,37 @@ body {
   align-items: center;
 }
 
-#word-btn {
+.word-btn {
   width: 50px;
   height: 50px;
   background-image: url("img/text.svg");
   background-repeat: no-repeat;
   background-size: 50px;
   background-position: center;
+  background-color: var(--bg-word-btn);
+  border-radius: 7px;
 }
 
-#touchpad-btn {
+.touchpad-btn {
   width: 50px;
   height: 50px;
   background-image: url("img/touchpad.svg");
   background-repeat: no-repeat;
   background-size: 50px;
   background-position: center;
+  background-color: var(--bg-touchpad-btn);
+  border-radius: 7px;
 }
 
-#autopilot-btn {
+.autopilot-btn {
   width: 50px;
   height: 50px;
   background-image: url("img/autopilot.svg");
   background-repeat: no-repeat;
   background-size: 50px;
   background-position: center;
+  background-color: var(--bg-autopilot-btn);
+  border-radius: 7px;
 }
 
 #input-palabra {
@@ -200,4 +214,12 @@ button {
   box-shadow: 0 0 20px black;
   border: 20px double var(--text-color);
   display: none;
+}
+
+.btn-tiny {
+  width: 25px;
+  height: 25px;
+  display: inline-block;
+  background-size: 20px;
+  border-radius: 2px;
 }
