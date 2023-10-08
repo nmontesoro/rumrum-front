@@ -167,20 +167,20 @@ class AppStatus {
     {
       id: "send-word-btn",
       events: ["click"],
-      callbackFn: () => this.auto.mostrarPalabra(this.#word),
+      callbackFn: () => {
+        let textbox: HTMLInputElement = <HTMLInputElement>(
+          this.#getElementById("input-palabra")
+        );
+        if (textbox.reportValidity()) {
+          this.auto.mostrarPalabra(textbox.value);
+        }
+      },
     },
     {
       id: "chk-palabra",
       events: ["change"],
       callbackFn: (e: InputEvent) =>
         (this.palabraAutomaticaEnabled = (<HTMLInputElement>e.target).checked),
-    },
-    {
-      id: "input-palabra",
-      events: ["change"],
-      callbackFn: (event: InputEvent) => {
-        this.#word = (<HTMLInputElement>event.target).value;
-      },
     },
     {
       id: "stop-btn",
