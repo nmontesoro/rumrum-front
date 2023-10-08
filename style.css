@@ -183,7 +183,7 @@ button {
 .settings-inner {
   display: grid;
   grid-template-columns: repeat(2, 2rem) 1fr;
-  grid-template-rows: 3rem 1fr repeat(2, 2.5rem);
+  grid-template-rows: 3rem 1fr repeat(3, 2.5rem);
   grid-row-gap: 20px;
   align-items: center;
   grid-column-gap: 10px;
