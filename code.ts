@@ -1,3 +1,84 @@
+class Direccion {
+  static #adelante: number = 0;
+  static #atras: number = 1;
+  static #izquierda: number = 2;
+  static #derecha: number = 3;
+
+  public static get ADELANTE(): number {
+    return Direccion.#adelante;
+  }
+
+  public static get ATRAS(): number {
+    return Direccion.#atras;
+  }
+
+  public static get IZQUIERDA(): number {
+    return Direccion.#izquierda;
+  }
+
+  public static get DERECHA(): number {
+    return Direccion.#derecha;
+  }
+}
+
+class Auto {
+  #LONGITUD_MAX_PALABRA: number;
+  #mostrandoPalabraAutomatica: boolean;
+  #displayEncendido: boolean;
+
+  public get longitudMaximaPalabra(): number {
+    return this.#LONGITUD_MAX_PALABRA;
+  }
+
+  public get mostrandoPalabraAutomatica(): boolean {
+    return this.#mostrandoPalabraAutomatica;
+  }
+
+  public get displayEncendido(): boolean {
+    return this.#displayEncendido;
+  }
+
+  constructor() {
+    this.#LONGITUD_MAX_PALABRA = 4;
+    this.#mostrandoPalabraAutomatica = true;
+    this.#displayEncendido = true;
+  }
+
+  movimientoAutomatico(direccion: number): void {
+    console.log(`Movimiento automático: ${direccion}`);
+  }
+
+  desplazar(x: number, y: number): void {
+    console.log(`Desplazando a (${x}, ${y})`);
+  }
+
+  detener(): void {
+    console.log("Auto detenido");
+  }
+
+  mostrarPalabra(palabra: string): void {
+    if (palabra.length <= this.#LONGITUD_MAX_PALABRA) {
+      console.log(`Mostrando palabra ${palabra}`);
+      this.#mostrandoPalabraAutomatica = false;
+    } else {
+      throw new Error(`'${palabra}' tiene demasiadas letras`);
+    }
+  }
+
+  mostrarPalabraAutomatica(): void {
+    console.log("Mostrando palabra automática");
+    this.#mostrandoPalabraAutomatica = true;
+  }
+
+  apagarDisplay(): void {
+    console.log("Apagando display");
+  }
+
+  encenderDisplay(): void {
+    console.log("Encendiendo display");
+  }
+}
+
 type ControlMap = {
   id: string;
   events: Array<string>;
@@ -8,6 +89,7 @@ class AppStatus {
   #containers: NodeListOf<HTMLElement>;
   #word: string = "";
   #palabraAutomaticaEnabled: boolean = true;
+  auto: Auto;
 
   public get palabraAutomaticaEnabled(): boolean {
     return this.#palabraAutomaticaEnabled;
@@ -53,27 +135,39 @@ class AppStatus {
     {
       id: "rotate-left-btn",
       events: ["click"],
-      callbackFn: () => this.#toggleStopButton(),
+      callbackFn: () => {
+        this.auto.movimientoAutomatico(Direccion.IZQUIERDA);
+        this.#toggleStopButton();
+      },
     },
     {
       id: "rotate-right-btn",
       events: ["click"],
-      callbackFn: () => this.#toggleStopButton(),
+      callbackFn: () => {
+        this.auto.movimientoAutomatico(Direccion.DERECHA);
+        this.#toggleStopButton();
+      },
     },
     {
       id: "straight-btn",
       events: ["click"],
-      callbackFn: () => this.#toggleStopButton(),
+      callbackFn: () => {
+        this.auto.movimientoAutomatico(Direccion.ADELANTE);
+        this.#toggleStopButton();
+      },
     },
     {
       id: "back-btn",
       events: ["click"],
-      callbackFn: () => this.#toggleStopButton(),
+      callbackFn: () => {
+        this.auto.movimientoAutomatico(Direccion.ATRAS);
+        this.#toggleStopButton();
+      },
     },
     {
       id: "send-word-btn",
       events: ["click"],
-      callbackFn: () => console.log(this.#word),
+      callbackFn: () => this.auto.mostrarPalabra(this.#word),
     },
     {
       id: "chk-palabra",
@@ -91,11 +185,16 @@ class AppStatus {
     {
       id: "stop-btn",
       events: ["click"],
-      callbackFn: () => this.#toggleStopButton(),
+      callbackFn: () => {
+        this.auto.detener();
+        this.#toggleStopButton();
+      },
     },
   ];
 
   constructor() {
+    this.auto = new Auto();
+
     this.#containers = document.querySelectorAll('[id$="-container"]');
 
     this.#controlMap.forEach((controlMap) => {
@@ -106,7 +205,12 @@ class AppStatus {
     });
 
     this.#toggleContainer("welcome");
-    this.palabraAutomaticaEnabled = true;
+
+    this.#showPalabraControls(this.auto.mostrandoPalabraAutomatica);
+
+    (<HTMLInputElement>document.getElementById("chk-palabra")).checked =
+      this.auto.mostrandoPalabraAutomatica;
+    this.#showPalabraControls(!this.auto.mostrandoPalabraAutomatica);
   }
 
   #toggleContainer(containerName: string): void {
