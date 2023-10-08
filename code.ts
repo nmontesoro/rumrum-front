@@ -181,8 +181,13 @@ class AppStatus {
     {
       id: "chk-palabra",
       events: ["change"],
-      callbackFn: (e: InputEvent) =>
-        (this.palabraAutomaticaEnabled = (<HTMLInputElement>e.target).checked),
+      callbackFn: (e: InputEvent) => {
+        let checked = (<HTMLInputElement>e.target).checked;
+        this.palabraAutomaticaEnabled = checked;
+        if (checked) {
+          this.auto.mostrarPalabraAutomatica();
+        }
+      },
     },
     {
       id: "stop-btn",
