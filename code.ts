@@ -15,7 +15,7 @@ class AppStatus {
 
   public set palabraAutomaticaEnabled(v: boolean) {
     let checkbox: HTMLInputElement = <HTMLInputElement>(
-      document.getElementById("chk-palabra")
+      this.#getElementById("chk-palabra")
     );
     checkbox.checked = v;
     this.#palabraAutomaticaEnabled = v;
@@ -23,19 +23,15 @@ class AppStatus {
   }
 
   #showPalabraControls(v: boolean): void {
-    let textbox: HTMLInputElement | null = <HTMLInputElement>(
-      document.getElementById("input-palabra")
+    let textbox: HTMLInputElement = <HTMLInputElement>(
+      this.#getElementById("input-palabra")
     );
-    let button: HTMLInputElement | null = <HTMLInputElement>(
-      document.getElementById("send-word-btn")
+    let button: HTMLInputElement = <HTMLInputElement>(
+      this.#getElementById("send-word-btn")
     );
 
-    if (textbox && button) {
-      textbox.style.display = v ? "block" : "none";
-      button.style.display = v ? "block" : "none";
-    } else {
-      throw new Error("No encontré alguno de los elementos necesarios");
-    }
+    textbox.style.display = v ? "block" : "none";
+    button.style.display = v ? "block" : "none";
   }
 
   #controlMap: Array<ControlMap> = [
@@ -103,15 +99,10 @@ class AppStatus {
     this.#containers = document.querySelectorAll('[id$="-container"]');
 
     this.#controlMap.forEach((controlMap) => {
-      let element: HTMLElement | null = document.getElementById(controlMap.id);
-
-      if (element) {
-        controlMap.events.forEach((event) => {
-          element?.addEventListener(event, controlMap.callbackFn);
-        });
-      } else {
-        throw new Error(`No encontré el elemento con id ${controlMap.id}`);
-      }
+      let element: HTMLElement = this.#getElementById(controlMap.id);
+      controlMap.events.forEach((event) => {
+        element.addEventListener(event, controlMap.callbackFn);
+      });
     });
 
     this.#toggleContainer("welcome");
@@ -126,16 +117,24 @@ class AppStatus {
   }
 
   #toggleStopButton(): void {
-    let stopButton: HTMLElement | null = document.getElementById("stop-btn");
+    let stopButton: HTMLElement = this.#getElementById("stop-btn");
 
-    if (stopButton) {
-      let currentStyle: string = stopButton.style.display;
-      if (currentStyle == "block") {
-        stopButton.style.display = "none";
-      } else {
-        stopButton.style.display = "block";
-      }
+    let currentStyle: string = stopButton.style.display;
+    if (currentStyle == "block") {
+      stopButton.style.display = "none";
+    } else {
+      stopButton.style.display = "block";
     }
+  }
+
+  #getElementById(id: string): HTMLElement {
+    let element: HTMLElement | null = document.getElementById(id);
+
+    if (element == null) {
+      throw new Error(`No encontré el elemento con id='${id}'`);
+    }
+
+    return element;
   }
 }
 
