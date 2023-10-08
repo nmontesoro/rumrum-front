@@ -192,10 +192,25 @@ class AppStatus {
         this.#toggleStopButton();
       },
     },
+    {
+      id: "toggle-display-btn",
+      events: ["click"],
+      callbackFn: () => {
+        if (this.auto.displayEncendido) {
+          this.auto.apagarDisplay();
+        } else {
+          this.auto.encenderDisplay();
+        }
+
+        this.#actualizarBotonDisplay();
+      },
+    },
   ];
 
   constructor() {
     this.auto = new Auto();
+
+    this.#actualizarBotonDisplay();
 
     this.#containers = document.querySelectorAll('[id$="-container"]');
 
@@ -241,6 +256,17 @@ class AppStatus {
     }
 
     return element;
+  }
+
+  #actualizarBotonDisplay(): void {
+    let boton: HTMLInputElement = <HTMLInputElement>(
+      this.#getElementById("toggle-display-btn")
+    );
+    if (this.auto.displayEncendido) {
+      boton.innerText = "Apagar display";
+    } else {
+      boton.innerText = "Encender display";
+    }
   }
 }
 
