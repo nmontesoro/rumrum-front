@@ -7,6 +7,36 @@ type ControlMap = {
 class AppStatus {
   #containers: NodeListOf<HTMLElement>;
   #word: string = "";
+  #palabraAutomaticaEnabled: boolean = true;
+
+  public get palabraAutomaticaEnabled(): boolean {
+    return this.#palabraAutomaticaEnabled;
+  }
+
+  public set palabraAutomaticaEnabled(v: boolean) {
+    let checkbox: HTMLInputElement = <HTMLInputElement>(
+      document.getElementById("chk-palabra")
+    );
+    checkbox.checked = v;
+    this.#palabraAutomaticaEnabled = v;
+    this.#showPalabraControls(!v);
+  }
+
+  #showPalabraControls(v: boolean): void {
+    let textbox: HTMLInputElement | null = <HTMLInputElement>(
+      document.getElementById("input-palabra")
+    );
+    let button: HTMLInputElement | null = <HTMLInputElement>(
+      document.getElementById("send-word-btn")
+    );
+
+    if (textbox && button) {
+      textbox.style.display = v ? "block" : "none";
+      button.style.display = v ? "block" : "none";
+    } else {
+      throw new Error("No encontré alguno de los elementos necesarios");
+    }
+  }
 
   #controlMap: Array<ControlMap> = [
     {
@@ -52,7 +82,8 @@ class AppStatus {
     {
       id: "chk-palabra",
       events: ["change"],
-      callbackFn: () => console.log("palabra"),
+      callbackFn: (e: InputEvent) =>
+        (this.palabraAutomaticaEnabled = (<HTMLInputElement>e.target).checked),
     },
     {
       id: "input-palabra",
@@ -84,6 +115,7 @@ class AppStatus {
     });
 
     this.#toggleContainer("welcome");
+    this.palabraAutomaticaEnabled = true;
   }
 
   #toggleContainer(containerName: string): void {
