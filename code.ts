@@ -82,7 +82,7 @@ class Auto {
 type ControlMap = {
   id: string;
   events: Array<string>;
-  callbackFn: (event?: Event) => void;
+  callbackFn: (event: any) => any;
 };
 
 class AppStatus {
@@ -245,7 +245,7 @@ class AppStatus {
 document.addEventListener("DOMContentLoaded", () => {
   try {
     let appStatus = new AppStatus();
-  } catch (err) {
+  } catch (err: any) {
     alert(err.message);
     console.log(err);
   }
