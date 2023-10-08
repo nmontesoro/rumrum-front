@@ -72,10 +72,12 @@ class Auto {
 
   apagarDisplay(): void {
     console.log("Apagando display");
+    this.#displayEncendido = false;
   }
 
   encenderDisplay(): void {
     console.log("Encendiendo display");
+    this.#displayEncendido = true;
   }
 }
 
