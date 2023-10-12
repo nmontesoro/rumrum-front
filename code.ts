@@ -91,6 +91,7 @@ class AppStatus {
   #containers: NodeListOf<HTMLElement>;
   #word: string = "";
   #palabraAutomaticaEnabled: boolean = true;
+  #spinnerElement: HTMLElement;
   auto: Auto;
 
   public get palabraAutomaticaEnabled(): boolean {
@@ -214,6 +215,7 @@ class AppStatus {
 
   constructor() {
     this.auto = new Auto();
+    this.#spinnerElement = this.#getElementById("spinner");
 
     this.#actualizarBotonDisplay();
 
@@ -272,6 +274,14 @@ class AppStatus {
     } else {
       boton.innerText = "Encender display";
     }
+  }
+
+  #showSpinner(): void {
+    this.#spinnerElement.style.display = "flex";
+  }
+
+  #hideSpinner(): void {
+    this.#spinnerElement.style.display = "none";
   }
 }
 
