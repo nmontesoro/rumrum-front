@@ -49,6 +49,8 @@ class Auto {
   }
 
   desplazar(x: number, y: number): void {
+    x = Math.round(x * 255);
+    y = Math.round(y * 255);
     console.log(`Desplazando a (${x}, ${y})`);
   }
 
@@ -92,6 +94,9 @@ class AppStatus {
   #word: string = "";
   #palabraAutomaticaEnabled: boolean = true;
   #spinnerElement: HTMLElement;
+  #isDragging: boolean = false;
+  #startX: number = 0;
+  #startY: number = 0;
   auto: Auto;
 
   public get palabraAutomaticaEnabled(): boolean {
@@ -209,6 +214,53 @@ class AppStatus {
         }
 
         this.#actualizarBotonDisplay();
+      },
+    },
+    {
+      id: "touchpad",
+      events: ["mousedown", "touchstart"],
+      callbackFn: (e: MouseEvent | TouchEvent) => {
+        this.#isDragging = true;
+        if (e instanceof MouseEvent) {
+          this.#startX = e.clientX;
+          this.#startY = e.clientY;
+        } else {
+          this.#startX = e.touches[0].clientX;
+          this.#startY = e.touches[0].clientY;
+        }
+      },
+    },
+    {
+      id: "touchpad",
+      events: ["mousemove", "touchmove"],
+      callbackFn: (e: MouseEvent | TouchEvent) => {
+        if (this.#isDragging) {
+          let x: number = 0;
+          let y: number = 0;
+          let width: number = (<HTMLElement>e.target).clientWidth;
+          let height: number = (<HTMLElement>e.target).clientHeight;
+
+          if (e instanceof MouseEvent) {
+            x = e.clientX;
+            y = e.clientY;
+          } else {
+            x = e.touches[0].clientX;
+            y = e.touches[0].clientY;
+          }
+
+          this.auto.desplazar(
+            (x - this.#startX) / width,
+            -(y - this.#startY) / height
+          );
+        }
+      },
+    },
+    {
+      id: "touchpad",
+      events: ["mouseup", "touchend"],
+      callbackFn: () => {
+        this.#isDragging = false;
+        this.auto.detener();
       },
     },
   ];
