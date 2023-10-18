@@ -25,6 +25,7 @@ class Auto {
   #LONGITUD_MAX_PALABRA: number;
   #mostrandoPalabraAutomatica: boolean;
   #displayEncendido: boolean;
+  #socket: WebSocket;
 
   public get longitudMaximaPalabra(): number {
     return this.#LONGITUD_MAX_PALABRA;
@@ -42,25 +43,36 @@ class Auto {
     this.#LONGITUD_MAX_PALABRA = 4;
     this.#mostrandoPalabraAutomatica = true;
     this.#displayEncendido = true;
+
+    let socketUrl: string = window.location.hostname;
+
+    // Para pruebas
+    if (socketUrl.length == 0) {
+      socketUrl = "localhost";
+    }
+
+    this.#socket = new WebSocket(`ws://${socketUrl}:8080/ws`);
   }
 
   movimientoAutomatico(direccion: number): void {
-    console.log(`Movimiento automático: ${direccion}`);
+    this.#socket.send(`${direccion}`);
   }
 
   desplazar(x: number, y: number): void {
     x = Math.round(x * 255);
     y = Math.round(y * 255);
-    console.log(`Desplazando a (${x}, ${y})`);
+    let x_string: string = `${x}`.padStart(4, " ");
+    let y_string: string = `${y}`.padStart(4, " ");
+    this.#socket.send(`5;${x_string};${y_string}`);
   }
 
   detener(): void {
-    console.log("Auto detenido");
+    this.#socket.send("4");
   }
 
   mostrarPalabra(palabra: string): void {
     if (palabra.length <= this.#LONGITUD_MAX_PALABRA) {
-      console.log(`Mostrando palabra ${palabra}`);
+      this.#socket.send(`6;${palabra}`);
       this.#mostrandoPalabraAutomatica = false;
     } else {
       throw new Error(`'${palabra}' tiene demasiadas letras`);
@@ -68,17 +80,17 @@ class Auto {
   }
 
   mostrarPalabraAutomatica(): void {
-    console.log("Mostrando palabra automática");
+    this.#socket.send("7");
     this.#mostrandoPalabraAutomatica = true;
   }
 
   apagarDisplay(): void {
-    console.log("Apagando display");
+    this.#socket.send("9");
     this.#displayEncendido = false;
   }
 
   encenderDisplay(): void {
-    console.log("Encendiendo display");
+    this.#socket.send("8");
     this.#displayEncendido = true;
   }
 }
