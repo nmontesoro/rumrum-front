@@ -26,6 +26,8 @@ class Auto {
   #mostrandoPalabraAutomatica: boolean;
   #displayEncendido: boolean;
   #socket: WebSocket;
+  #lastX: number;
+  #lastY: number;
 
   public get longitudMaximaPalabra(): number {
     return this.#LONGITUD_MAX_PALABRA;
@@ -43,6 +45,8 @@ class Auto {
     this.#LONGITUD_MAX_PALABRA = 4;
     this.#mostrandoPalabraAutomatica = true;
     this.#displayEncendido = true;
+    this.#lastX = 0;
+    this.#lastY = 0;
 
     let socketUrl: string = window.location.hostname;
 
@@ -61,9 +65,23 @@ class Auto {
   desplazar(x: number, y: number): void {
     x = Math.round(x * 255);
     y = Math.round(y * 255);
-    let x_string: string = `${x}`.padStart(4, " ");
-    let y_string: string = `${y}`.padStart(4, " ");
-    this.#socket.send(`5;${x_string};${y_string}`);
+
+    if (this.#enviarMovimiento(x, y)) {
+      this.#lastX = x;
+      this.#lastY = y;
+      let x_string: string = `${x}`.padStart(4, " ");
+      let y_string: string = `${y}`.padStart(4, " ");
+      this.#socket.send(`5;${x_string};${y_string}`);
+    }
+  }
+
+  #enviarMovimiento(x: number, y: number): boolean {
+    return (
+      x >= this.#lastX + 20 ||
+      x <= this.#lastX - 20 ||
+      y >= this.#lastY + 20 ||
+      y <= this.#lastY - 20
+    );
   }
 
   detener(): void {
