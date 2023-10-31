@@ -51,7 +51,7 @@ class Auto {
       socketUrl = "localhost";
     }
 
-    this.#socket = new WebSocket(`ws://${socketUrl}:8080/ws`);
+    this.#socket = new WebSocket(`ws://${socketUrl}:80/ws`);
   }
 
   movimientoAutomatico(direccion: number): void {
@@ -59,11 +59,25 @@ class Auto {
   }
 
   desplazar(x: number, y: number): void {
-    x = Math.round(x * 255);
-    y = Math.round(y * 255);
-    let x_string: string = `${x}`.padStart(4, " ");
-    let y_string: string = `${y}`.padStart(4, " ");
-    this.#socket.send(`5;${x_string};${y_string}`);
+    x = Math.min(Math.round(x * 255), 255);
+    y = Math.min(Math.round(y * 255), 255);
+
+    if (this.#enviarMovimiento(x, y)) {
+      this.#lastX = x;
+      this.#lastY = y;
+      let x_string: string = `${x}`.padStart(4, " ");
+      let y_string: string = `${y}`.padStart(4, " ");
+      this.#socket.send(`5;${x_string};${y_string}`);
+    }
+  }
+
+  #enviarMovimiento(x: number, y: number): boolean {
+    return (
+      x >= this.#lastX + 20 ||
+      x <= this.#lastX - 20 ||
+      y >= this.#lastY + 20 ||
+      y <= this.#lastY - 20
+    );
   }
 
   detener(): void {
@@ -261,8 +275,8 @@ class AppStatus {
           }
 
           this.auto.desplazar(
-            (x - this.#startX) / width,
-            -(y - this.#startY) / height
+            (4 * (x - this.#startX)) / width,
+            (-4 * (y - this.#startY)) / height
           );
         }
       },
