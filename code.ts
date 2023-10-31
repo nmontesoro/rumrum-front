@@ -26,6 +26,8 @@ class Auto {
   #mostrandoPalabraAutomatica: boolean;
   #displayEncendido: boolean;
   #socket: WebSocket;
+  #lastX: number = 0;
+  #lastY: number = 0;
 
   public get longitudMaximaPalabra(): number {
     return this.#LONGITUD_MAX_PALABRA;
