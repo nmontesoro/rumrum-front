@@ -41,7 +41,10 @@ class Auto {
     return this.#displayEncendido;
   }
 
-  constructor() {
+  constructor(
+    onerror?: (arg: Event) => void,
+    onclose?: (arg: CloseEvent) => void
+  ) {
     this.#LONGITUD_MAX_PALABRA = 4;
     this.#mostrandoPalabraAutomatica = true;
     this.#displayEncendido = true;
@@ -54,6 +57,14 @@ class Auto {
     }
 
     this.#socket = new WebSocket(`ws://${socketUrl}:80/ws`);
+
+    if (onerror != null) {
+      this.#socket.onerror = onerror;
+    }
+
+    if (onclose != null) {
+      this.#socket.onclose = onclose;
+    }
   }
 
   movimientoAutomatico(direccion: number): void {
@@ -294,7 +305,7 @@ class AppStatus {
   ];
 
   constructor() {
-    this.auto = new Auto();
+    this.auto = new Auto(this.displayError, this.displayError);
     this.#spinnerElement = this.#getElementById("spinner");
 
     this.#actualizarBotonDisplay();
@@ -362,6 +373,14 @@ class AppStatus {
 
   #hideSpinner(): void {
     this.#spinnerElement.style.display = "none";
+  }
+
+  displayError(ev: Event) {
+    let msgDiv: HTMLDivElement = <HTMLDivElement>(
+      document.getElementById("error-msg-modal")
+    );
+
+    msgDiv.style.display = "flex";
   }
 }
 
