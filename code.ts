@@ -99,7 +99,7 @@ class Auto {
 
   mostrarPalabra(palabra: string): void {
     if (palabra.length <= this.#LONGITUD_MAX_PALABRA) {
-      this.#socket.send(`6;${palabra}`);
+      this.#socket.send(`8;${palabra}`);
       this.#mostrandoPalabraAutomatica = false;
     } else {
       throw new Error(`'${palabra}' tiene demasiadas letras`);
@@ -107,17 +107,17 @@ class Auto {
   }
 
   mostrarPalabraAutomatica(): void {
-    this.#socket.send("7");
+    this.#socket.send("9");
     this.#mostrandoPalabraAutomatica = true;
   }
 
   apagarDisplay(): void {
-    this.#socket.send("9");
+    this.#socket.send("7");
     this.#displayEncendido = false;
   }
 
   encenderDisplay(): void {
-    this.#socket.send("8");
+    this.#socket.send("6");
     this.#displayEncendido = true;
   }
 }
