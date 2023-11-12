@@ -1,3 +1,8 @@
+/**
+ * Enumeración que representa las posibles direcciones de movimiento del
+ * auto.
+ * @enum {number}
+ */
 enum Direccion {
   Adelante,
   Atras,
@@ -5,26 +10,56 @@ enum Direccion {
   Derecha,
 }
 
+/**
+ * Clase que representa el auto con todas sus funcionalidades.
+ */
 class Auto {
   #LONGITUD_MAX_PALABRA: number;
   #mostrandoPalabraAutomatica: boolean;
   #displayEncendido: boolean;
+
+  // Instancia de WebSocket para la comunicación con el servidor.
   #socket: WebSocket;
+
+  // Últimas coordenadas enviadas al servidor.
   #lastX: number = 0;
   #lastY: number = 0;
 
+  /**
+   * Obtiene la longitud máxima permitida para la palabra en el display.
+   * @public
+   * @type {number}
+   */
   public get longitudMaximaPalabra(): number {
     return this.#LONGITUD_MAX_PALABRA;
   }
 
+  /**
+   * Obtiene el estado actual de la visualización automática de palabras
+   * en el display.
+   * @public
+   * @type {boolean}
+   */
   public get mostrandoPalabraAutomatica(): boolean {
     return this.#mostrandoPalabraAutomatica;
   }
 
+  /**
+   * Obtiene el estado actual del display del auto.
+   * @public
+   * @type {boolean}
+   */
   public get displayEncendido(): boolean {
     return this.#displayEncendido;
   }
 
+  /**
+   * Constructor de la clase Auto.
+   * @param {function} [onerror] - Callback para eventos de error en el
+   * WebSocket.
+   * @param {function} [onclose] - Callback para eventos de cierre en el
+   * WebSocket.
+   */
   constructor(
     onerror?: (arg: Event) => void,
     onclose?: (arg: CloseEvent) => void
@@ -51,10 +86,21 @@ class Auto {
     }
   }
 
+  /**
+   * Realiza un movimiento automático enviando la dirección al servidor.
+   * @public
+   * @param {number} direccion - Dirección del movimiento.
+   */
   movimientoAutomatico(direccion: Direccion): void {
     this.#socket.send(`${direccion}`);
   }
 
+  /**
+   * Desplaza el auto enviando las coordenadas X e Y al servidor.
+   * @public
+   * @param {number} x - Coordenada X.
+   * @param {number} y - Coordenada Y.
+   */
   desplazar(x: number, y: number): void {
     x = Math.min(Math.round(x * 255), 255);
     y = Math.min(Math.round(y * 255), 255);
@@ -68,6 +114,15 @@ class Auto {
     }
   }
 
+  /**
+   * Determina si se debe enviar el movimiento basado en las coordenadas
+   * actuales y anteriores.
+   * @private
+   * @param {number} x - Coordenada X actual.
+   * @param {number} y - Coordenada Y actual.
+   * @returns {boolean} - True si se debe enviar el movimiento, false en
+   * caso contrario.
+   */
   #enviarMovimiento(x: number, y: number): boolean {
     return (
       x >= this.#lastX + 20 ||
@@ -77,10 +132,21 @@ class Auto {
     );
   }
 
+  /**
+   * Detiene el movimiento del auto enviando la señal al servidor.
+   * @public
+   */
   detener(): void {
     this.#socket.send("4");
   }
 
+  /**
+   * Muestra una palabra en el display si cumple con la longitud máxima
+   * permitida.
+   * @public
+   * @param {string} palabra - Palabra a mostrar.
+   * @throws {Error} - Error si la palabra excede la longitud máxima permitida.
+   */
   mostrarPalabra(palabra: string): void {
     if (palabra.length <= this.#LONGITUD_MAX_PALABRA) {
       this.#socket.send(`8;${palabra}`);
@@ -90,42 +156,81 @@ class Auto {
     }
   }
 
+  /**
+   * Activa la visualización de palabra automática en el display.
+   * @public
+   */
   mostrarPalabraAutomatica(): void {
     this.#socket.send("9");
     this.#mostrandoPalabraAutomatica = true;
   }
 
+  /**
+   * Apaga el display del auto.
+   * @public
+   */
   apagarDisplay(): void {
     this.#socket.send("7");
     this.#displayEncendido = false;
   }
 
+  /**
+   * Enciende el display del auto.
+   * @public
+   */
   encenderDisplay(): void {
     this.#socket.send("6");
     this.#displayEncendido = true;
   }
 }
 
+/**
+ * Tipo que representa la estructura de un mapeo de controles.
+ * @typedef {Object} ControlMap
+ * @property {string} id - Identificador del control.
+ * @property {Array<string>} events - Eventos asociados al control.
+ * @property {(event: any) => any} callbackFn - Callback asociado al
+ * control.
+ */
 type ControlMap = {
   id: string;
   events: Array<string>;
   callbackFn: (event: any) => any;
 };
 
+/**
+ * Clase que representa el estado de la aplicación.
+ */
 class AppStatus {
   #containers: NodeListOf<HTMLElement>;
   #word: string = "";
   #palabraAutomaticaEnabled: boolean = true;
   #spinnerElement: HTMLElement;
   #isDragging: boolean = false;
+
+  // Coordenadas iniciales para el arrastre en el touchpad.
   #startX: number = 0;
   #startY: number = 0;
+
+  // Instancia de la clase Auto asociada a la aplicación.
   auto: Auto;
 
+  /**
+   * Obtiene el estado actual de la visualización automática de palabras
+   * en el display.
+   * @public
+   * @type {boolean}
+   */
   public get palabraAutomaticaEnabled(): boolean {
     return this.#palabraAutomaticaEnabled;
   }
 
+  /**
+   * Establece el estado de la visualización automática de palabras en
+   * el display.
+   * @public
+   * @param {boolean} v - Nuevo estado.
+   */
   public set palabraAutomaticaEnabled(v: boolean) {
     let checkbox: HTMLInputElement = <HTMLInputElement>(
       this.#getElementById("chk-palabra")
@@ -135,6 +240,13 @@ class AppStatus {
     this.#showPalabraControls(!v);
   }
 
+  /**
+   * Muestra u oculta los controles de palabra en función del estado
+   * proporcionado.
+   * @private
+   * @param {boolean} v - Estado para mostrar u ocultar los controles de
+   * palabra.
+   */
   #showPalabraControls(v: boolean): void {
     let textbox: HTMLInputElement = <HTMLInputElement>(
       this.#getElementById("input-palabra")
@@ -147,6 +259,11 @@ class AppStatus {
     button.style.display = v ? "block" : "none";
   }
 
+  /**
+   * Mapa de controles asociados a eventos en la aplicación.
+   * @private
+   * @type {Array<ControlMap>}
+   */
   #controlMap: Array<ControlMap> = [
     {
       id: "autopilot-btn",
@@ -272,8 +389,8 @@ class AppStatus {
           }
 
           this.auto.desplazar(
-            2 * (x - this.#startX) / width,
-            -2 * (y - this.#startY) / height
+            (2 * (x - this.#startX)) / width,
+            (-2 * (y - this.#startY)) / height
           );
         }
       },
@@ -288,6 +405,9 @@ class AppStatus {
     },
   ];
 
+  /**
+   * Constructor de la clase AppStatus.
+   */
   constructor() {
     this.auto = new Auto(this.displayError, this.displayError);
     this.#spinnerElement = this.#getElementById("spinner");
@@ -312,6 +432,12 @@ class AppStatus {
     this.#showPalabraControls(!this.auto.mostrandoPalabraAutomatica);
   }
 
+  /**
+   * Muestra u oculta un contenedor específico de la aplicación.
+   * @private
+   * @param {string} containerName - Nombre del contenedor a mostrar u
+   * ocultar.
+   */
   #toggleContainer(containerName: string): void {
     containerName = `${containerName}-container`;
     this.#containers.forEach((value) => {
@@ -319,6 +445,11 @@ class AppStatus {
     });
   }
 
+  /**
+   * Muestra u oculta el botón que detiene el movimiento automático, en
+   * función de su estado actual.
+   * @private
+   */
   #toggleStopButton(): void {
     let stopButton: HTMLElement = this.#getElementById("stop-btn");
 
@@ -330,6 +461,14 @@ class AppStatus {
     }
   }
 
+  /**
+   * Obtiene un elemento HTML por su identificador.
+   * @private
+   * @param {string} id - Identificador del elemento.
+   * @returns {HTMLElement} - Elemento HTML encontrado.
+   * @throws {Error} - Error si no se encuentra el elemento con el
+   * identificador proporcionado.
+   */
   #getElementById(id: string): HTMLElement {
     let element: HTMLElement | null = document.getElementById(id);
 
@@ -340,6 +479,11 @@ class AppStatus {
     return element;
   }
 
+  /**
+   * Actualiza el texto del botón de encendido/apagado del display en
+   * función del estado actual.
+   * @private
+   */
   #actualizarBotonDisplay(): void {
     let boton: HTMLInputElement = <HTMLInputElement>(
       this.#getElementById("toggle-display-btn")
@@ -359,6 +503,10 @@ class AppStatus {
     this.#spinnerElement.style.display = "none";
   }
 
+  /**
+   * Utilizado como callback para mostrar errores en la interfaz.
+   * @param {Event} ev - Evento que desencadena la función.
+   */
   displayError(ev: Event) {
     let msgDiv: HTMLDivElement = <HTMLDivElement>(
       document.getElementById("error-msg-modal")
