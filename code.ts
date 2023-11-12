@@ -1,24 +1,8 @@
-class Direccion {
-  static #adelante: number = 0;
-  static #atras: number = 1;
-  static #izquierda: number = 2;
-  static #derecha: number = 3;
-
-  public static get ADELANTE(): number {
-    return Direccion.#adelante;
-  }
-
-  public static get ATRAS(): number {
-    return Direccion.#atras;
-  }
-
-  public static get IZQUIERDA(): number {
-    return Direccion.#izquierda;
-  }
-
-  public static get DERECHA(): number {
-    return Direccion.#derecha;
-  }
+enum Direccion {
+  Adelante,
+  Atras,
+  Izquierda,
+  Derecha,
 }
 
 class Auto {
@@ -183,7 +167,7 @@ class AppStatus {
       id: "rotate-left-btn",
       events: ["click"],
       callbackFn: () => {
-        this.auto.movimientoAutomatico(Direccion.IZQUIERDA);
+        this.auto.movimientoAutomatico(Direccion.Izquierda);
         this.#toggleStopButton();
       },
     },
@@ -191,7 +175,7 @@ class AppStatus {
       id: "rotate-right-btn",
       events: ["click"],
       callbackFn: () => {
-        this.auto.movimientoAutomatico(Direccion.DERECHA);
+        this.auto.movimientoAutomatico(Direccion.Derecha);
         this.#toggleStopButton();
       },
     },
@@ -199,7 +183,7 @@ class AppStatus {
       id: "straight-btn",
       events: ["click"],
       callbackFn: () => {
-        this.auto.movimientoAutomatico(Direccion.ADELANTE);
+        this.auto.movimientoAutomatico(Direccion.Adelante);
         this.#toggleStopButton();
       },
     },
@@ -207,7 +191,7 @@ class AppStatus {
       id: "back-btn",
       events: ["click"],
       callbackFn: () => {
-        this.auto.movimientoAutomatico(Direccion.ATRAS);
+        this.auto.movimientoAutomatico(Direccion.Atras);
         this.#toggleStopButton();
       },
     },
