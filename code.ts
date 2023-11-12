@@ -272,8 +272,8 @@ class AppStatus {
           }
 
           this.auto.desplazar(
-            (4 * (x - this.#startX)) / width,
-            (-4 * (y - this.#startY)) / height
+            2 * (x - this.#startX) / width,
+            -2 * (y - this.#startY) / height
           );
         }
       },
