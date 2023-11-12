@@ -51,7 +51,7 @@ class Auto {
     }
   }
 
-  movimientoAutomatico(direccion: number): void {
+  movimientoAutomatico(direccion: Direccion): void {
     this.#socket.send(`${direccion}`);
   }
 
